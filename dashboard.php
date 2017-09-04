@@ -1,3 +1,5 @@
+<?php require_once("include/sessions.php"); ?>
+<?php require_once("include/functions.php"); ?>
 <!DOCTYPE html>
 <html>
     <head>
@@ -14,12 +16,12 @@
                 <div class="col-sm-2">
                     <h1>Sapphire</h1>
                     <ul id="Side_Menu" class="nav nav-pills nav-stacked">
-                        <li class="active"><a href="Dashboard.php">
+                        <li class="active"><a href="dashboard.php">
                                 <span class="glyphicon glyphicon-th"></span>
                                 &nbsp;Dashboard</a></li>
                         <li ><a href="#"> <span class="glyphicon glyphicon-list-alt"></span>
                                 &nbsp;Add New Post</a></li>               
-                        <li><a href="#"><span class="glyphicon glyphicon-tags"></span>
+                        <li><a href="categories.php"><span class="glyphicon glyphicon-tags"></span>
                                 &nbsp;Categories</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-user"></span>
                                 &nbsp;Manage Admins</a></li>
@@ -33,7 +35,13 @@
 
                 </div> <!-- Ending of Side Area -->
                 <div class="col-sm-10">
+           
                     <h1>Admin Dashboard</h1>
+                     <div>
+                     <?php echo Message();
+                           echo SuccessMessage();
+                     ?>
+                     </div>
                     <p>
                         There will be a Google Agencies Day Europe on 3rd October, 
                         2017 at our offices in Kings Cross / London. 
@@ -122,12 +130,12 @@
             </div> <!-- Ending of Row -->
         </div> <!-- Ending of Container -->
         <div id="Footer">
-            <hr><p>Theme By | Hein Htet |&copy;2017-2020 --- All right reserved.
+            <hr><p>Theme By | Sapphire | &copy;2017-2020 --- All right reserved.
             </p>
-            <a style="color: white; text-decoration: none; cursor: pointer; font-weight:bold;" href="http://jazebakram.com/coupons/" target="_blank">
+            <a style="color: white; text-decoration: none; cursor: pointer; font-weight:bold;" href="http://Sapphire.com/coupons/" target="_blank">
                 <p>
-                    This site is only used for Study purpose jazebakram.com have all the rights. no one is allow to distribute
-                    copies other then <br>&trade; jazebakram.com &trade;  Udemy ; &trade; Skillshare ; &trade; StackSkills</p><hr>
+                    This site is only used for Study purpose Sapphire.com have all the rights. no one is allow to distribute
+                    copies other then <br>&trade; Sapphire.com &trade;  Udemy ; &trade; Skillshare ; &trade; StackSkills</p><hr>
             </a>
 
         </div>
