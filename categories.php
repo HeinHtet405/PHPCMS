@@ -3,19 +3,19 @@
 <?php require_once("include/functions.php"); ?>
 <?php
 if (isset($_POST["Submit"])) {
-    $Category = mysqli_real_escape_string($_POST["Category"]);
+    $Category = mysqli_real_escape_string($connection,$_POST["Category"]);
     date_default_timezone_set("Asia/Yangon");
     $CurrentTime = time();
     $DateTime = strftime("%B-%d-%Y %H:%M:%S", $CurrentTime);
     $DateTime;
-    if (empty($Category)){
+    if (empty($Category)) {
         $_SESSION["ErrorMessage"] = "All Fields must be filled out";
         Redirect_to("dashboard.php");
-    } elseif (strlen($Category) > 99) {
-        $_SESSION["ErrorMessage"] = "Too Long Name for Category";
-        Redirect_to("categories.php");
+    } elseif (strlen($Category) > 4) {
+        $_SESSION["ErrorMessage"] = "Too long Name for Category";
+        Redirect_to("Categories.php");
     }
-} 
+}
 ?>
 <!DOCTYPE html>
 <html>
@@ -53,9 +53,10 @@ if (isset($_POST["Submit"])) {
                 </div> <!-- Ending of Side Area -->
                 <div class="col-sm-10">
                     <h1>Manage Categories</h1>
-                     <?php echo Message();
-                           echo SuccessMessage();
-                     ?>
+                    <?php
+                    echo Message();
+                    echo SuccessMessage();
+                    ?>
                     <div>
                         <form action="categories.php" method="post"> 
                             <fieldset>
