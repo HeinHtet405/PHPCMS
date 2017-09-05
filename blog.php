@@ -1,3 +1,4 @@
+<!-- Connect Require Class -->
 <?php require_once("include/db.php"); ?>
 <?php require_once("include/sessions.php"); ?>
 <?php require_once("include/functions.php"); ?>
@@ -5,10 +6,12 @@
 <html>
     <head>
         <title>Blog Page</title>
+        <!-- Connect Require Style -->
         <link rel="stylesheet" href="css/bootstrap.min.css">
         <link rel="stylesheet" href="css/publicstyles.css">
         <script src="js/jquery-3.2.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
+        <!-- Inline CSS -->
         <style>
             .col-sm-3{
                 background-color: green;
@@ -16,9 +19,11 @@
         </style>
     </head>
     <body>
+        <!-- Navigation Bar Area -->
         <div style="height: 10px; background: #27aae1;"></div>
         <nav class="navbar navbar-inverse" role="navigation" >
             <div class="container">
+                <!-- Navigation Menu Icon Area -->
                 <div class="navbar-header">
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" 
                             data-target="#collapse">
@@ -30,7 +35,8 @@
                     <a class="navbar-brand" href="blog.php">
                         <img style="margin-top: -4px;" src="images/web-logo.png" width="100" height="30">
                     </a>
-                </div>
+                </div> <!-- Ending of Navigation Menu Icon Area -->
+                <!-- Navigation Bar -->
                 <div class="collapse navbar-collapse" id="collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="#">Home</a></li>
@@ -40,15 +46,17 @@
                         <li><a href="#">Contact</a></li>
                         <li><a href="#">Feature</a></li>
                     </ul>
+                    <!-- Search Input Field -->
                     <form action="blog.php" class="navbar-form navbar-right">
                         <div class="form-group">
                             <input type="text" class="form-control" placeholder="Search" name="Search"/>
                         </div>
+                        <!-- Search Button -->
                         <button class="btn btn-default" name="SearchButton">Go</button>
                     </form>
                 </div>
             </div>
-        </nav>
+        </nav> <!-- Ending of Navigation Bar Area -->
         <div class="Line" style="height: 10px; background: #27aae1;"></div>
         <div class="container"> <!-- Container -->
             <div>
@@ -59,13 +67,14 @@
                 <div class="col-sm-8"> <!-- Main Blog Area -->
                     <?php
                     global $connection;
-                    if(isset($_GET["SearchButton"])) {
+                    // Check Search Data OR Normal Data
+                    if (isset($_GET["SearchButton"])) {
                         $Search = $_GET["Search"];
-                        $ViewQuery = "SELECT * FROM adminpanel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR post LIKE '%$Search%'";               
+                        $ViewQuery = "SELECT * FROM adminpanel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR post LIKE '%$Search%'";
                     } else {
                         $ViewQuery = "SELECT * FROM adminpanel ORDER BY datetime desc";
                     }
-                   
+
                     $Execute = mysqli_query($connection, $ViewQuery);
                     while ($DataRows = mysqli_fetch_array($Execute)) {
                         $PostId = $DataRows["id"];
@@ -76,24 +85,31 @@
                         $Image = $DataRows["image"];
                         $Post = $DataRows["post"];
                         ?>
+                        <!-- Blog Item Area -->
                         <div class="blogpost thumbnail">
+                            <!-- Image -->
                             <img class="img-responsive img-rounded" src="upload/<?php echo $Image; ?>" >
                             <div class="caption">
+                                <!-- Title -->
                                 <h1 id="heading"><?php echo htmlentities($Title); ?></h1>
+                                <!-- Category and DateTime  -->
                                 <p class="description">Category:<?php echo htmlentities($Category); ?> Published on
                                     <?php echo htmlentities($DateTime); ?></p>
+                                <!-- Post -->
                                 <p class="post"><?php
-                                
-                                if(strlen($Post) > 150) {
-                                    $Post = substr($Post,0, 150).'...';
-                                }
-                                
-                                echo $Post; ?></p>
+                                    // Check Post String words
+                                    if (strlen($Post) > 150) {
+                                        $Post = substr($Post, 0, 150) . '...';
+                                    }
+
+                                    echo $Post;
+                                    ?></p>
                             </div>
+                            <!-- Read More Button -->
                             <a href="fullpost.php?id=<?php echo $PostId; ?>">
                                 <span class="btn btn-info">Read More &nbsp;&rsaquo;&rsaquo;</span>
                             </a>
-                        </div>
+                        </div> <!-- Ending of Blog Item Area -->
 
                     <?php } ?>
                 </div> <!-- Main Blog Area Ending -->
@@ -107,6 +123,7 @@
                 </div> <!-- Side Area Ending -->
             </div><!-- Row Ending -->
         </div><!-- Container Ending -->
+        <!-- Footer Area -->
         <div id="Footer">
             <hr><p>Theme By | Sapphire | &copy;2017-2020 --- All right reserved.
             </p>
@@ -118,5 +135,6 @@
 
         </div>
         <div style="height: 10px; background: #27AAE1;"></div> 
+        <!-- Ending of Footer Area -->
     </body>
 </html>

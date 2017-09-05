@@ -1,5 +1,8 @@
 <?php
+// Session Start
 session_start();
+
+// Session Error Message
 function  Message() {
     if (isset($_SESSION["ErrorMessage"])) {
         $Output = "<div class=\"alert alert-danger\">" ;
@@ -10,6 +13,7 @@ function  Message() {
     }
 }
 
+//Session Success Message
 function  SuccessMessage() {
     if (isset($_SESSION["SuccessMessage"])) {
         $Output = "<div class=\"alert alert-success\">" ;
