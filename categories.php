@@ -52,10 +52,10 @@ if (isset($_POST["Submit"])) {
                 <div class="col-sm-2">
                   
                     <ul id="Side_Menu" class="nav nav-pills nav-stacked">
-                        <li><a href="Dashboard.php">
+                        <li><a href="dashboard.php">
                                 <span class="glyphicon glyphicon-th"></span>
                                 &nbsp;Dashboard</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-list-alt"></span>
+                        <li><a href="addnewpost.php"> <span class="glyphicon glyphicon-list-alt"></span>
                                 &nbsp;Add New Post</a></li>               
                         <li class="active"><a href="categories.php"><span class="glyphicon glyphicon-tags"></span>
                                 &nbsp;Categories</a></li>
@@ -84,7 +84,7 @@ if (isset($_POST["Submit"])) {
                                     <input class="form-control" type="text" name="Category" id="categoryname" placeholder="Name"/>
                                 </div>
                                 <br>
-                                <input class="btn btn-success btn-block" type="Submit" name="Submit" value="Add New Category"/>
+                                <input class="btn btn-success btn-block" type="Submit" name="Submit" value="Add New Post"/>
                             </fieldset>  
                             <br>
                         </form>
@@ -107,7 +107,7 @@ if (isset($_POST["Submit"])) {
                                 $DateTime = $DataRows["datetime"];
                                 $CategoryName = $DataRows["name"];
                                 $CreatorName = $DataRows["creatorname"];
-                                echo $serialNo++;
+                                $serialNo++;
                             
                             ?>
                             <tr>
