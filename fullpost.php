@@ -52,8 +52,8 @@
         <div class="Line" style="height: 10px; background: #27aae1;"></div>
         <div class="container"> <!-- Container -->
             <div>
-                <h1>The Complete Responsive CMS Blog</h1>
-                <p class="lead">The Complete blog using PHP by Sapphire</p>
+                <h1>Welcome To My Shoe City....</h1>
+                <p class="lead">All product are Made in Italy.Smart and Limited Your Style..</p>
             </div>
             <div class="row"><!-- Row -->
                 <div class="col-sm-8"> <!-- Main Blog Area -->
