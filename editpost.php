@@ -21,15 +21,16 @@ if (isset($_POST["Submit"])) {
         Redirect_to("addnewpost.php");
     } else {
         global $connection;
-        $Query = "INSERT INTO adminpanel(datetime,title,category,author,image,post) VALUES('$DateTime','$Title','$Category','$Admin','$Image','$Post')";
+        $EditFromURL = $_GET['Edit'];
+        $Query = "UPDATE adminpanel SET datetime='$DateTime', title='$Title',category='$Category',author='$Admin',image='$Image',post='$Post' WHERE id='$EditFromURL'";
         $Execute = mysqli_query($connection, $Query);
         move_uploaded_file($_FILES["Image"]["tmp_name"], $Target);
         if ($Execute) {
-            $_SESSION["SuccessMessage"] = "Post Added Successfully";
-            Redirect_to("addnewpost.php");
+            $_SESSION["SuccessMessage"] = "Post Updated Successfully";
+            Redirect_to("dashboard.php");
         } else {
             $_SESSION["ErrorMessage"] = "Something Went Wrong. Try Again!";
-            Redirect_to("addnewpost.php");
+            Redirect_to("dashboard.php");
         }
     }
 }
@@ -40,7 +41,7 @@ if (isset($_POST["Submit"])) {
         <meta charset="UTF-8">
         <title>Edit Post</title>
         <link rel="stylesheet" href="css/bootstrap.min.css">
-        <link rel="stylesheet" href="css/adminstyles.css">
+        <link rel="stylesheet" href="css/dashboardstyles.css">
         <script src="js/jquery-3.2.1.min.js"></script>
         <script src="js/bootstrap.min.js"></script>
         <style>
@@ -94,7 +95,7 @@ if (isset($_POST["Submit"])) {
                             $PostToBeUpdated = $DataRows['post'];
                         }
                         ?>
-                        <form action="addnewpost.php" method="post" enctype="multipart/form-data"> 
+                        <form action="editpost.php?Edit=<?php echo $SearchQueryParameter; ?>" method="post" enctype="multipart/form-data"> 
                             <fieldset>
                                 <div class="form-group">
                                     <label for="title"><span class="FieldInfo">Title:</span></label>
@@ -110,7 +111,7 @@ if (isset($_POST["Submit"])) {
                                         <?php
                                         global $connection;
                                         $ViewQuery = "SELECT * FROM category ORDER BY datetime desc";
-                                        $Execute = mysqli_query($connection, $ViewQuery);
+                                          $Execute = mysqli_query($connection, $ViewQuery);
                                         while ($DataRows = mysqli_fetch_array($Execute)) {
                                             $Id = $DataRows["id"];
                                             $CategoryName = $DataRows["name"];
@@ -135,7 +136,7 @@ if (isset($_POST["Submit"])) {
                                    
                                 </div>
                                 <br>
-                                <input class="btn btn-success btn-block" type="Submit" name="Submit" value="Add New Category"/>
+                                <input class="btn btn-success btn-block" type="Submit" name="Submit" value="Update Post"/>
                             </fieldset>  
                             <br>
                         </form>

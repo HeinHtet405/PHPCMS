@@ -1,4 +1,4 @@
-<!-- Connect Require C// Click Submit Buttonlass -->
+<!-- Connect Require Class -->
 <?php require_once("include/db.php"); ?>
 <?php require_once("include/sessions.php"); ?>
 <?php require_once("include/functions.php"); ?>
