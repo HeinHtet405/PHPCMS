@@ -1,6 +1,41 @@
 <?php require_once("include/db.php"); ?>
 <?php require_once("include/sessions.php"); ?>
 <?php require_once("include/functions.php"); ?>
+<?php
+// Click Submit Button
+if (isset($_POST["Submit"])) {
+    //Get Data Form Input Field and Check String prevent for SQL Injection
+    $Name = mysqli_real_escape_string($connection, $_POST["Name"]);
+    $Email = mysqli_real_escape_string($connection, $_POST["Email"]);
+    $Comment = mysqli_real_escape_string($connection, $_POST["Comment"]);
+    // Date and Time Format
+    date_default_timezone_set("Asia/Yangon");
+    $CurrentTime = time();
+    $DateTime = strftime("%B-%d-%Y %H:%M:%S", $CurrentTime);
+    $DateTime;
+    $PostId = $_GET["id"];
+    // Check input data
+    if (empty($Name) || empty($Email) || empty($Comment)) {
+        $_SESSION["ErrorMessage"] = "All Fields are required";
+    } elseif (strlen($Comment) > 500) {
+        $_SESSION["ErrorMessage"] = "Title Should be at-least 2 Characters";
+    } else {
+        // Save AdminPanel Database
+        global $connection;
+        $PostIdFromURL = $_GET['id'];
+        $Query = "INSERT into comments (datetime,name,email,comment,status,adminpanel_id) VALUES('$DateTime','$Name','$Email','$Comment','OFF','$PostIdFromURL')";
+        $Execute = mysqli_query($connection, $Query);
+        // Check for State add data to AdminPanel Database
+        if ($Execute) {
+            $_SESSION["SuccessMessage"] = "Comment Submitted Successfully";
+            Redirect_to("fullpost.php?id={$PostId}");
+        } else {
+            $_SESSION["ErrorMessage"] = "Something Went Wrong. Try Again!";
+            Redirect_to("fullpost.php?id={$PostId}");
+        }
+    }
+}
+?>
 <!DOCTYPE>
 <html>
     <head>
@@ -12,6 +47,26 @@
         <style>
             .col-sm-3{
                 background-color: green;
+            }
+            .FieldInfo {
+                color: rgb(251,174,44);
+                font-family: Bitter,Georgia,"Times New Roman",Times,serif;
+                font-size: 1.2em;
+            }
+            .CommentBlock {
+                background-color: #F6F7F9;
+            }
+            .Comment-info{
+                color: #365899;
+                font-family: sans-serif;
+                font-size: 1.1em;
+                font-weight: bold;
+                padding-top: 10px;
+            }
+            .comment {
+                margin-top: -2px;
+                padding-bottom: 10px;
+                font-size: 1.1em;
             }
         </style>
     </head>
@@ -57,16 +112,21 @@
             </div>
             <div class="row"><!-- Row -->
                 <div class="col-sm-8"> <!-- Main Blog Area -->
+                    <!-- Check Session -->
+                    <?php
+                    echo Message();
+                    echo SuccessMessage();
+                    ?> <!-- Ending of Check Session -->
                     <?php
                     global $connection;
-                    if(isset($_GET["SearchButton"])) {
+                    if (isset($_GET["SearchButton"])) {
                         $Search = $_GET["Search"];
-                        $ViewQuery = "SELECT * FROM adminpanel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR post LIKE '%$Search%'";               
+                        $ViewQuery = "SELECT * FROM adminpanel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR post LIKE '%$Search%'";
                     } else {
                         $PostIDFromURL = $_GET["id"];
                         $ViewQuery = "SELECT * FROM adminpanel WHERE id='$PostIDFromURL' ORDER BY datetime desc";
                     }
-                   
+
                     $Execute = mysqli_query($connection, $ViewQuery);
                     while ($DataRows = mysqli_fetch_array($Execute)) {
                         $PostId = $DataRows["id"];
@@ -83,12 +143,60 @@
                                 <h1 id="heading"><?php echo htmlentities($Title); ?></h1>
                                 <p class="description">Category:<?php echo htmlentities($Category); ?> Published on
                                     <?php echo htmlentities($DateTime); ?></p>
-                                <p class="post"><?php
-                                echo $Post; ?></p>
+                                <p class="post"><?php echo $Post; ?></p>
                             </div>
                         </div>
 
                     <?php } ?>
+                    <br>
+                    <span class="FieldInfo">Share your thoughts about this post</span>
+                    <br>
+                    <span class="FieldInfo">Comments</span>
+                    <?php
+                    $connection;
+                    $PostIdForComments = $_GET["id"];
+                    $ExtractCommentQuery = "SELECT * FROM comments WHERE adminpanel_id='$PostIdForComments'";
+                    $Execute = mysqli_query($connection, $ExtractCommentQuery);
+                    while ($DataRows = mysqli_fetch_array($Execute)) {
+                        $CommentDate = $DataRows["datetime"];
+                        $CommentName = $DataRows["name"];
+                        $CommentbyUsers = $DataRows["comment"];
+                        ?> 
+                        <div class="CommentBlock">
+                            <img style="margin-left: 10px; margin-top: 10px;" class="pull-left" src="images/comment.png" width="70px" height="70px">
+                            <p style="margin-left: 90px;" class="Comment-info" ><?php echo $CommentName; ?></p>
+                            <p style="margin-left: 90px;" class="description"><?php echo $CommentDate; ?></p>
+                            <p style="margin-left: 90px;" class="comment"><?php echo $CommentbyUsers; ?></p>
+                        </div>
+                        <br>
+                        <hr>
+                    <?php } ?>
+                    <!-- Comment Form Area -->
+                    <div>
+                        <form action="fullpost.php?id=<?php echo $PostId; ?>" method="post" enctype="multipart/form-data"> 
+                            <fieldset>
+                                <!-- Name Input Field -->
+                                <div class="form-group">
+                                    <label for="Name"><span class="FieldInfo">Name:</span></label>
+                                    <input class="form-control" type="text" name="Name" id="Name" placeholder="Name"/>
+                                </div>
+                                <!-- Email Input Field -->
+                                <div class="form-group">
+                                    <label for="Email"><span class="FieldInfo">Email:</span></label>
+                                    <input class="form-control" type="email" name="Email" id="Email" placeholder="Email"/>
+                                </div>
+                                <!-- Post Input Field -->
+                                <div class="form-group">
+                                    <label for="commentarea"><span class="FieldInfo">Comment:</span></label>
+                                    <textarea class="form-control" name="Comment" id="commentarea"></textarea>
+                                </div>
+                                <br>
+                                <!-- Submit Button -->
+                                <input class="btn btn-primary" type="Submit" name="Submit" value="Submit"/>
+                            </fieldset>  
+                            <br>
+                        </form>
+                    </div> <!-- Ending of Comment Form Area -->
                 </div> <!-- Main Blog Area Ending -->
                 <div class="col-sm-offset-1 col-sm-3"> <!-- Side Area -->
                     <h2>Test</h2>

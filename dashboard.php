@@ -49,7 +49,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-sm-2">
-                    <h1>Sapphire</h1>
+                    <h1 style="color: white">Sapphire</h1>
                     <ul id="Side_Menu" class="nav nav-pills nav-stacked">
                         <li class="active"><a href="dashboard.php">
                                 <span class="glyphicon glyphicon-th"></span>
