@@ -71,7 +71,7 @@ if (isset($_POST["Submit"])) {
                                 &nbsp;Categories</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-user"></span>
                                 &nbsp;Manage Admins</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-comment"></span>
+                        <li><a href="comment.php"><span class="glyphicon glyphicon-comment"></span>
                                 &nbsp;Comments</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-equalizer"></span>
                                 &nbsp;Live Blog</a></li>

@@ -60,8 +60,21 @@
                                 &nbsp;Categories</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-user"></span>
                                 &nbsp;Manage Admins</a></li>
-                        <li><a href="#"><span class="glyphicon glyphicon-comment"></span>
-                                &nbsp;Comments</a></li>
+                        <li><a href="comment.php"><span class="glyphicon glyphicon-comment"></span>
+                                &nbsp;Comments
+                                <?php
+                                $connection;
+                                $QueryTotal = "SELECT COUNT(*) FROM comments WHERE status='OFF'";
+                                $ExecuteTotal = mysqli_query($connection, $QueryTotal);
+                                $RowsTotal = mysqli_fetch_array($ExecuteTotal);
+                                $Total = array_shift($RowsTotal);
+                                if ($Total > 0) {
+                                    ?>
+                                <span class="label pull-right label-warning">
+                                        <?php echo $Total; ?> 
+                                    </span>
+                                <?php } ?>
+                            </a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-equalizer"></span>
                                 &nbsp;Live Blog</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-log-out"></span>
@@ -109,32 +122,57 @@
 
                                 <tr>
                                     <td><?php echo $serialNo; ?></td>
-                                    <td style="color: #5e5eff"><?php 
-                                    if (strlen($Title)>20) {
-                                        $Title = substr($Title, 0, 20).'...';
-                                    }
-                                    echo $Title;
-                                    ?></td>
+                                    <td style="color: #5e5eff"><?php
+                                        if (strlen($Title) > 20) {
+                                            $Title = substr($Title, 0, 20) . '...';
+                                        }
+                                        echo $Title;
+                                        ?></td>
                                     <td><?php
-                                     if (strlen($DateTime)>9) {
-                                        $DateTime = substr($DateTime, 0, 9).'...';
-                                    }
-                                    echo $DateTime;
-                                    ?></td>
-                                    <td><?php 
-                                    if (strlen($Admin)>6) {
-                                        $Admin = substr($Admin, 0, 6).'...';
-                                    }
-                                    echo $Admin;
-                                    ?></td>
-                                    <td><?php 
-                                     if (strlen($Category)>8) {
-                                        $Category = substr($Category, 0, 8).'...';
-                                    }
-                                    echo $Category;
-                                    ?></td>
+                                        if (strlen($DateTime) > 9) {
+                                            $DateTime = substr($DateTime, 0, 9) . '...';
+                                        }
+                                        echo $DateTime;
+                                        ?></td>
+                                    <td><?php
+                                        if (strlen($Admin) > 6) {
+                                            $Admin = substr($Admin, 0, 6) . '...';
+                                        }
+                                        echo $Admin;
+                                        ?></td>
+                                    <td><?php
+                                        if (strlen($Category) > 8) {
+                                            $Category = substr($Category, 0, 8) . '...';
+                                        }
+                                        echo $Category;
+                                        ?></td>
                                     <td><img src="upload/<?php echo $Image; ?>" width="100px" height="60px"></td>
-                                    <td>Processing</td>
+                                    <td>
+                                        <?php
+                                        $connection;
+                                        $QueryApproved = "SELECT COUNT(*) FROM comments WHERE adminpanel_id='$Id' AND status='ON'";
+                                        $ExecuteApproved = mysqli_query($connection, $QueryApproved);
+                                        $RowsApproved = mysqli_fetch_array($ExecuteApproved);
+                                        $TotalApproved = array_shift($RowsApproved);
+                                        if ($TotalApproved > 0) {
+                                            ?>
+                                            <span class="label pull-right label-success">
+                                                <?php echo $TotalApproved; ?> 
+                                            </span>
+                                        <?php } ?>
+                                        <?php
+                                        $connection;
+                                        $QueryUnApproved = "SELECT COUNT(*) FROM comments WHERE adminpanel_id='$Id' AND status='OFF'";
+                                        $ExecuteUnApproved = mysqli_query($connection, $QueryUnApproved);
+                                        $RowsUnApproved = mysqli_fetch_array($ExecuteUnApproved);
+                                        $TotalUnApproved = array_shift($RowsUnApproved);
+                                        if ($TotalUnApproved > 0) {
+                                            ?>
+                                            <span class="label pull-left label-danger">
+                                                <?php echo $TotalUnApproved; ?> 
+                                            </span>
+                                        <?php } ?>
+                                    </td>
                                     <td>
                                         <a href="editpost.php?Edit=<?php echo $Id; ?>">
                                             <span class="btn btn-warning">Edit</span> 
@@ -145,7 +183,7 @@
                                     </td>
                                     <td>
                                         <a href="fullpost.php?id=<?php echo $Id; ?>" target="_blank">
-                                          <span class="btn btn-primary">Live Preview</span> 
+                                            <span class="btn btn-primary">Live Preview</span> 
                                         </a>  
                                     </td>
                                 </tr>

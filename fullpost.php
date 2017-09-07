@@ -18,7 +18,7 @@ if (isset($_POST["Submit"])) {
     if (empty($Name) || empty($Email) || empty($Comment)) {
         $_SESSION["ErrorMessage"] = "All Fields are required";
     } elseif (strlen($Comment) > 500) {
-        $_SESSION["ErrorMessage"] = "Title Should be at-least 2 Characters";
+        $_SESSION["ErrorMessage"] = "Comment Should be 500 Characters";
     } else {
         // Save AdminPanel Database
         global $connection;
@@ -155,7 +155,7 @@ if (isset($_POST["Submit"])) {
                     <?php
                     $connection;
                     $PostIdForComments = $_GET["id"];
-                    $ExtractCommentQuery = "SELECT * FROM comments WHERE adminpanel_id='$PostIdForComments'";
+                    $ExtractCommentQuery = "SELECT * FROM comments WHERE adminpanel_id='$PostIdForComments' AND status='ON'";
                     $Execute = mysqli_query($connection, $ExtractCommentQuery);
                     while ($DataRows = mysqli_fetch_array($Execute)) {
                         $CommentDate = $DataRows["datetime"];
