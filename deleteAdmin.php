@@ -5,14 +5,13 @@
 if(isset($_GET['id'])){
     $IdFromURL = $_GET["id"];
     $connection;
-    $Admin = $_SESSION["Username"];
-    $Query = "UPDATE comments SET status='ON', approvedby='$Admin' WHERE id='$IdFromURL'";
+    $Query = "DELETE FROM registration WHERE id='$IdFromURL'";
     $Execute = mysqli_query($connection, $Query);
     if($Execute){
-        $_SESSION["SuccessMessage"] = "Comment Approved Successfully";
-        Redirect_to("comment.php");
+        $_SESSION["SuccessMessage"] = "Admin Deleted Successfully";
+        Redirect_to("admin.php");
     } else {
         $_SESSION["ErrorMessage"] = "Something Went Wrong. Try Again!";
-        Redirect_to("comment.php");
+        Redirect_to("admin.php");
     }
 }

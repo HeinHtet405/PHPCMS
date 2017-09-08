@@ -23,7 +23,7 @@ if (isset($_POST["Submit"])) {
         // Save AdminPanel Database
         global $connection;
         $PostIdFromURL = $_GET['id'];
-        $Query = "INSERT into comments (datetime,name,email,comment,status,adminpanel_id) VALUES('$DateTime','$Name','$Email','$Comment','OFF','$PostIdFromURL')";
+        $Query = "INSERT into comments (datetime,name,email,comment,approvedby,status,adminpanel_id) VALUES('$DateTime','$Name','$Email','$Comment','Pending','OFF','$PostIdFromURL')";
         $Execute = mysqli_query($connection, $Query);
         // Check for State add data to AdminPanel Database
         if ($Execute) {
@@ -53,8 +53,8 @@ if (isset($_POST["Submit"])) {
                 font-family: Bitter,Georgia,"Times New Roman",Times,serif;
                 font-size: 1.2em;
             }
-            .CommentBlock {
-                background-color: #F6F7F9;
+            .CommentBlock{
+                background-color:#F6F7F9;
             }
             .Comment-info{
                 color: #365899;
@@ -63,11 +63,12 @@ if (isset($_POST["Submit"])) {
                 font-weight: bold;
                 padding-top: 10px;
             }
-            .comment {
-                margin-top: -2px;
+            .comment{
+                margin-top:-2px;
                 padding-bottom: 10px;
-                font-size: 1.1em;
+                font-size: 1.1em
             }
+
         </style>
     </head>
     <body>
@@ -138,15 +139,14 @@ if (isset($_POST["Submit"])) {
                         $Post = $DataRows["post"];
                         ?>
                         <div class="blogpost thumbnail">
-                            <img class="img-responsive img-rounded" src="upload/<?php echo $Image; ?>" >
+                            <img class="img-responsive img-rounded"src="Upload/<?php echo $Image; ?>" >
                             <div class="caption">
-                                <h1 id="heading"><?php echo htmlentities($Title); ?></h1>
+                                <h1 id="heading"> <?php echo htmlentities($Title); ?></h1>
                                 <p class="description">Category:<?php echo htmlentities($Category); ?> Published on
                                     <?php echo htmlentities($DateTime); ?></p>
-                                <p class="post"><?php echo $Post; ?></p>
+                                <p class="post"><?php echo nl2br($Post); ?></p>
                             </div>
                         </div>
-
                     <?php } ?>
                     <br>
                     <span class="FieldInfo">Share your thoughts about this post</span>
@@ -163,10 +163,10 @@ if (isset($_POST["Submit"])) {
                         $CommentbyUsers = $DataRows["comment"];
                         ?> 
                         <div class="CommentBlock">
-                            <img style="margin-left: 10px; margin-top: 10px;" class="pull-left" src="images/comment.png" width="70px" height="70px">
-                            <p style="margin-left: 90px;" class="Comment-info" ><?php echo $CommentName; ?></p>
-                            <p style="margin-left: 90px;" class="description"><?php echo $CommentDate; ?></p>
-                            <p style="margin-left: 90px;" class="comment"><?php echo $CommentbyUsers; ?></p>
+                            <img style="margin-left: 10px; margin-top: 10px;" class="pull-left" src="images/comment.png" width=70px; height=70px;>
+                            <p style="margin-left: 90px;" class="Comment-info"><?php echo $CommentName; ?></p>
+                            <p style="margin-left: 90px;"class="description"><?php echo $CommentDate; ?></p>
+                            <p style="margin-left: 90px;" class="Comment"><?php echo nl2br($CommentbyUsers); ?></p>
                         </div>
                         <br>
                         <hr>

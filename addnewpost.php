@@ -2,6 +2,7 @@
 <?php require_once("include/db.php"); ?>
 <?php require_once("include/sessions.php"); ?>
 <?php require_once("include/functions.php"); ?>
+<?php Confirm_Login() ?>
 <?php
 // Click Submit Button
 if (isset($_POST["Submit"])) {
@@ -15,7 +16,7 @@ if (isset($_POST["Submit"])) {
     $DateTime = strftime("%B-%d-%Y %H:%M:%S", $CurrentTime);
     $DateTime;
     // Admin
-    $Admin = "Hein Htet";
+    $Admin = $_SESSION["Username"];
     // Image Progress
     $Image = $_FILES["Image"]["name"];
     $Target = "upload/" . basename($_FILES["Image"]["name"]);
@@ -76,13 +77,13 @@ if (isset($_POST["Submit"])) {
                                 &nbsp;Add New Post</a></li>               
                         <li><a href="categories.php"><span class="glyphicon glyphicon-tags"></span>
                                 &nbsp;Categories</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-user"></span>
+                        <li><a href="admin.php"> <span class="glyphicon glyphicon-user"></span>
                                 &nbsp;Manage Admins</a></li>
                         <li><a href="comment.php"><span class="glyphicon glyphicon-comment"></span>
                                 &nbsp;Comments</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-equalizer"></span>
                                 &nbsp;Live Blog</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-log-out"></span>
+                        <li><a href="logout.php"> <span class="glyphicon glyphicon-log-out"></span>
                                 &nbsp;Logout</a></li>
                     </ul>
                 </div>

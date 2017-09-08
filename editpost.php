@@ -1,6 +1,7 @@
 <?php require_once("include/db.php"); ?>
 <?php require_once("include/sessions.php"); ?>
 <?php require_once("include/functions.php"); ?>
+<?php Confirm_Login() ?>
 <?php
 if (isset($_POST["Submit"])) {
     $Title = mysqli_real_escape_string($connection, $_POST["Title"]);
@@ -10,7 +11,7 @@ if (isset($_POST["Submit"])) {
     $CurrentTime = time();
     $DateTime = strftime("%B-%d-%Y %H:%M:%S", $CurrentTime);
     $DateTime;
-    $Admin = "Hein Htet";
+    $Admin = $_SESSION["Username"];
     $Image = $_FILES["Image"]["name"];
     $Target = "upload/" . basename($_FILES["Image"]["name"]);
     if (empty($Title)) {
@@ -71,7 +72,7 @@ if (isset($_POST["Submit"])) {
                                 &nbsp;Comments</a></li>
                         <li><a href="#"> <span class="glyphicon glyphicon-equalizer"></span>
                                 &nbsp;Live Blog</a></li>
-                        <li><a href="#"> <span class="glyphicon glyphicon-log-out"></span>
+                        <li><a href="logout.php"> <span class="glyphicon glyphicon-log-out"></span>
                                 &nbsp;Logout</a></li>
                     </ul>
 
@@ -111,7 +112,7 @@ if (isset($_POST["Submit"])) {
                                         <?php
                                         global $connection;
                                         $ViewQuery = "SELECT * FROM category ORDER BY datetime desc";
-                                          $Execute = mysqli_query($connection, $ViewQuery);
+                                        $Execute = mysqli_query($connection, $ViewQuery);
                                         while ($DataRows = mysqli_fetch_array($Execute)) {
                                             $Id = $DataRows["id"];
                                             $CategoryName = $DataRows["name"];
@@ -131,9 +132,9 @@ if (isset($_POST["Submit"])) {
                                 <div class="form-group">
                                     <label for="postarea"><span class="FieldInfo">Post:</span></label>
                                     <textarea class="form-control" name="Post" id="postarea">
-                                         <?php echo $PostToBeUpdated; ?>
+                                        <?php echo $PostToBeUpdated; ?>
                                     </textarea>
-                                   
+
                                 </div>
                                 <br>
                                 <input class="btn btn-success btn-block" type="Submit" name="Submit" value="Update Post"/>
