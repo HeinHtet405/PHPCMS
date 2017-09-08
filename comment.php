@@ -157,7 +157,7 @@
                                     <td style="color: #5e5eff;"><?php echo htmlentities($PersonName); ?></td>
                                     <td><?php echo htmlentities($DateTimeofComment); ?></td>
                                     <td><?php echo htmlentities($PersonComments); ?></td>
-                                    <td><?php echo htmlentities($ApprovedBy);?></td>
+                                    <td><?php echo htmlentities($ApprovedBy); ?></td>
                                     <td><a href="disApproveComments.php?id=<?php echo $CommentId; ?>"><span class="btn btn-warning">Dis-Approve</span></a></td>
                                     <td><a href="deleteComment.php?id=<?php echo $CommentId; ?>"><span class="btn btn-danger">Delete</span></a></td>
                                     <td><a href="fullpost.php?id=<?php echo $CommentPOstId; ?>" target="_blank"><span class="btn btn-primary">Live Preview</span></a></td>
@@ -176,8 +176,8 @@
                     This site is only used for Study purpose Sapphire.com have all the rights. no one is allow to distribute
                     copies other then <br>&trade; Sapphire.com &trade;  Udemy ; &trade; Skillshare ; &trade; StackSkills</p><hr>
             </a>
-
+            <div style="height: 10px; background: #27AAE1;"></div> 
         </div>
-        <div style="height: 10px; background: #27AAE1;"></div> 
+
     </body>
 </html>

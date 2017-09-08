@@ -59,7 +59,7 @@
                                 &nbsp;Add New Post</a></li>               
                         <li><a href="categories.php"><span class="glyphicon glyphicon-tags"></span>
                                 &nbsp;Categories</a></li>
-                        <li><a href="dashboard.php"> <span class="glyphicon glyphicon-user"></span>
+                        <li><a href="admin.php"> <span class="glyphicon glyphicon-user"></span>
                                 &nbsp;Manage Admins</a></li>
                         <li><a href="comment.php"><span class="glyphicon glyphicon-comment"></span>
                                 &nbsp;Comments
