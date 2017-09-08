@@ -111,6 +111,7 @@ if (isset($_POST["Submit"])) {
                                 <th>Date & Time</th>
                                 <th>Category Name</th>
                                 <th>Creator Name</th>
+                                <th>Action</th>
                             </tr>
                             <?php
                             global $connection;
@@ -129,6 +130,9 @@ if (isset($_POST["Submit"])) {
                                     <td><?php echo $DateTime; ?></td>
                                     <td><?php echo $CategoryName; ?></td>
                                     <td><?php echo $CreatorName; ?></td>
+                                    <td><a href="deleteCategory.php?id=<?php echo $Id;?>">
+                                    <span class="btn btn-danger">Delete</span>
+                                    </a></td>
                                 </tr>
                             <?php } ?>
                         </table>
