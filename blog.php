@@ -60,8 +60,8 @@
         <div class="Line" style="height: 10px; background: #27aae1;"></div>
         <div class="container"> <!-- Container -->
             <div>
-                <h1>Welcome To My Shoe City....</h1>
-                <p class="lead">All product are Made in Italy.Smart and Limited Your Style..</p>
+                <h1>Welcome To Myanmar Mobile Life Style....</h1>
+                <p class="lead">Trust and Belive.Smart and Limited Your Life Style..</p>
             </div>
             <div class="row"><!-- Row -->
                 <div class="col-sm-8"> <!-- Main Blog Area -->
@@ -70,11 +70,21 @@
                     // Check Search Data OR Normal Data
                     if (isset($_GET["SearchButton"])) {
                         $Search = $_GET["Search"];
+                        // Query when search Button is active
                         $ViewQuery = "SELECT * FROM adminpanel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR post LIKE '%$Search%'";
+                    } else if (isset($_GET["Page"])) {
+                        $Page = $_GET["Page"];
+                        if ($Page == 0 || $Page < 1) {
+                            $ShowPostFrom = 0;
+                        } else {
+                            $ShowPostFrom = ($Page * 5) - 5;
+                            // Query When Pagination is Active i.e Blog.php?Page=1
+                            $ViewQuery = "SELECT * FROM adminpanel ORDER BY datetime desc LIMIT $ShowPostFrom,5";
+                        }
                     } else {
-                        $ViewQuery = "SELECT * FROM adminpanel ORDER BY datetime desc";
+                        // The Dafult Query for Blog.php page
+                        $ViewQuery = "SELECT * FROM adminpanel ORDER BY datetime desc LIMIT 0,5";
                     }
-
                     $Execute = mysqli_query($connection, $ViewQuery);
                     while ($DataRows = mysqli_fetch_array($Execute)) {
                         $PostId = $DataRows["id"];
@@ -107,11 +117,40 @@
                             </div>
                             <!-- Read More Button -->
                             <a href="fullpost.php?id=<?php echo $PostId; ?>">
-                                <span class="btn btn-info">Read More &nbsp;&rsaquo;&rsaquo;</span>
+                                <span class="btn btn-info">Read More &nbsp;&rsaquo;&rsaquo;</span><br><br>
                             </a>
                         </div> <!-- Ending of Blog Item Area -->
 
                     <?php } ?>
+                    <nav>
+                        <ul class="pagination pull-left pagination-lg">
+                            <?php
+                            global $connection;
+                            $QueryPagination = "";
+                            $QueryPagination = "SELECT COUNT(*) FROM adminpanel";
+                            $ExecutePagination = mysqli_query($connection, $QueryPagination);
+                            $RowPagination = mysqli_fetch_array($ExecutePagination);
+                            $TotalPosts = array_shift($RowPagination);
+                            //echo $TotalPosts;
+                            $PostPagination = ceil($TotalPosts / 5);
+                            //echo $PostPerPage;
+
+                            for ($i = 1; $i <= $PostPagination; $i++) {
+                                if (isset($Page)) {
+                                    if ($i == $Page) {
+                                        ?>
+                                        <li class="active"><a href="blog.php?Page=<?php echo $i; ?>"><?php echo$i; ?></a></li> 
+                                        <?php } else {
+                                        ?>
+                                        <li><a href="blog.php?Page=<?php echo $i; ?>"><?php echo$i; ?></a></li>  
+                                        <?php
+                                    }
+                                }
+                            }
+                            ?>   
+                        </ul>
+                    </nav>
+
                 </div> <!-- Main Blog Area Ending -->
                 <div class="col-sm-offset-1 col-sm-3"> <!-- Side Area -->
                     <h2>Test</h2>

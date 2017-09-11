@@ -108,8 +108,8 @@ if (isset($_POST["Submit"])) {
         <div class="Line" style="height: 10px; background: #27aae1;"></div>
         <div class="container"> <!-- Container -->
             <div>
-                <h1>Welcome To My Shoe City....</h1>
-                <p class="lead">All product are Made in Italy.Smart and Limited Your Style..</p>
+                <h1>Welcome To Myanmar Mobile Life Style....</h1>
+                <p class="lead">Trust and Belive.Smart and Limited Your Life Style..</p>
             </div>
             <div class="row"><!-- Row -->
                 <div class="col-sm-8"> <!-- Main Blog Area -->
