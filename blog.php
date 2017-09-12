@@ -13,8 +13,13 @@
         <script src="js/bootstrap.min.js"></script>
         <!-- Inline CSS -->
         <style>
-            .col-sm-3{
-                background-color: green;
+            nav ul li{
+                float: left;
+            }
+            .imageicon{
+                max-width: 150px;
+                margin: 0 auto;
+                display: block;
             }
         </style>
     </head>
@@ -40,7 +45,7 @@
                 <div class="collapse navbar-collapse" id="collapse">
                     <ul class="nav navbar-nav">
                         <li><a href="#">Home</a></li>
-                        <li class="active"><a href="blog.php">Blog</a></li>
+                        <li class="active"><a href="blog.php?Page=1">Blog</a></li>
                         <li><a href="#">About</a></li>
                         <li><a href="#">Service</a></li>
                         <li><a href="#">Contact</a></li>
@@ -72,6 +77,9 @@
                         $Search = $_GET["Search"];
                         // Query when search Button is active
                         $ViewQuery = "SELECT * FROM adminpanel WHERE datetime LIKE '%$Search%' OR title LIKE '%$Search%' OR category LIKE '%$Search%' OR post LIKE '%$Search%'";
+                    } else if (isset($_GET["Category"])) {
+                        $Category = $_GET["Category"];
+                        $ViewQuery = "SELECT * FROM admin_panel WHERE category='$Category' ORDER BY id desc";
                     } else if (isset($_GET["Page"])) {
                         $Page = $_GET["Page"];
                         if ($Page == 0 || $Page < 1) {
@@ -124,6 +132,16 @@
                     <?php } ?>
                     <nav>
                         <ul class="pagination pull-left pagination-lg">
+                            <!-- Creating Backward Button -->
+                            <?php
+                            if (isset($Page)) {
+                                if ($Page > 1) {
+                                    ?>
+                                    <li><a href="blog.php?Page=<?php echo $Page - 1 ?>">&laquo;</a></li>
+                                    <?php
+                                }
+                            }
+                            ?>
                             <?php
                             global $connection;
                             $QueryPagination = "";
@@ -140,7 +158,7 @@
                                     if ($i == $Page) {
                                         ?>
                                         <li class="active"><a href="blog.php?Page=<?php echo $i; ?>"><?php echo$i; ?></a></li> 
-                                        <?php } else {
+                                    <?php } else {
                                         ?>
                                         <li><a href="blog.php?Page=<?php echo $i; ?>"><?php echo$i; ?></a></li>  
                                         <?php
@@ -148,17 +166,84 @@
                                 }
                             }
                             ?>   
+                            <!-- Creating Forward Button -->
+                            <?php
+                            if (isset($Page)) {
+                                if ($Page + 1 <= $PostPagination) {
+                                    ?>
+                                    <li><a href="blog.php?Page=<?php echo $Page + 1 ?>">&raquo;</a></li>
+                                    <?php
+                                }
+                            }
+                            ?>
                         </ul>
                     </nav>
 
                 </div> <!-- Main Blog Area Ending -->
                 <div class="col-sm-offset-1 col-sm-3"> <!-- Side Area -->
-                    <h2>Test</h2>
+                    <h2 id="heading">About me</h2>
+                    <img class="img-responsive img-circle imageicon" src="images/Bunny.jpg" width="150px" height="150px">
                     <p>Lorem ipsum dolor sit amet, consectetur adispiscing elit
                         , sed do eisusmod tempor incididunt ut labore et dolore magnanimity
                         aliqua. Ut enim ad minim veniam, quis nostrud exercitation
                         ullacmo laboris nisi ut,
                         dent, sunt in culpa qui offica deserunt mollit anim id est laborum.</p>
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Categories</h2>
+                        </div>
+                        <div class="panel-body">
+                            <?php
+                            global $connection;
+                            $ViewQuery = "SELECT * FROM category ORDER BY id desc";
+                            $Execute = mysqli_query($connection, $ViewQuery);
+                            while ($DataRows = mysqli_fetch_array($Execute)) {
+                                $Id = $DataRows['id'];
+                                $Category = $DataRows['name'];
+                                ?>
+                                <a href="blog.php?Category=<?php echo $Category; ?>">
+                                    <span id="heading"><?php echo $Category . "<br><br>" ?></span>
+                                </a>
+                            <?php } ?>
+                        </div>
+                        <div class="panel-footer">
+
+                        </div>
+                    </div>
+
+                    <div class="panel panel-primary">
+                        <div class="panel-heading">
+                            <h2 class="panel-title">Recent Posts</h2>
+                        </div>
+                        <div class="panel-body background">
+                            <?php
+                            $connection;
+                            $ViewQuery = "SELECT * FROM adminpanel ORDER BY id desc LIMIT 0,5";
+                            $Execute = mysqli_query($connection, $ViewQuery);
+                            while ($DataRows = mysqli_fetch_array($Execute)) {
+                                $Id = $DataRows["id"];
+                                $Title = $DataRows["title"];
+                                $DateTime = $DataRows["datetime"];
+                                $Image = $DataRows["image"];
+                                if (strlen($DateTime) > 11) {
+                                    $DateTime = substr($DateTime, 0, 12);
+                                }
+                                ?>
+                                <div>
+                                    <img class="pull-left" style="margin-left: 0px;"  src="Upload/<?php echo htmlentities($Image); ?>" width=100; height=60;>
+                                    <a href="FullPost.php?id=<?php echo $Id; ?>">
+                                        <p id="heading" style="margin-left: 110px; padding-top: 4px;"><?php echo htmlentities($Title); ?></p>
+                                    </a>
+                                    <p class="description" style="margin-left: 110px;"><?php echo htmlentities($DateTime); ?></p>
+                                    <hr>
+                                </div>	
+                            <?php } ?>		
+                        </div>
+                        <div class="panel-footer">
+
+
+                        </div>
+                    </div>
                 </div> <!-- Side Area Ending -->
             </div><!-- Row Ending -->
         </div><!-- Container Ending -->
